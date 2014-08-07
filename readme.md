@@ -30,4 +30,7 @@ with `ko.prefs.setLong(pref,value)` or `ko.prefs.setBoolean(pref,value)`
  * autoTogglePaneHotspotSizeTop
  * autoTogglePaneHotspotSizeBottom
  * autoTogglePaneDelay *(in ms, don't set this too low as it can make your UI jumpy)*
- * autoTogglePaneToggleTabs *true/false, in case you dont want it to toggle tabs*
+ * toggleTopPane *true/false, whether to enable toggling this pane*
+ * toggleBottomPane *true/false, whether to enable toggling this pane*
+ * toggleRightPane *true/false, whether to enable toggling this pane*
+ * toggleLeftPane *true/false, whether to enable toggling this pane*
