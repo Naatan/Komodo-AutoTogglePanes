@@ -17,20 +17,23 @@
     var bottomPane = document.getElementById("workspace_bottom_area");
 
     // Retrieve preferences
-    var hotspotsizeLeft = ko.prefs.getLong("autoTogglePaneHotspotSizeLeft", 50);
+    var hotspotsizeLeft = ko.prefs.getLong("autoTogglePaneHotspotSizeLeft", 5);
     var hotspotsizeRight = ko.prefs.getLong("autoTogglePaneHotspotSizeRight", 50);
     var hotspotsizeTop = ko.prefs.getLong("autoTogglePaneHotspotSizeTop", 20);
     var hotspotsizeBottom = ko.prefs.getLong("autoTogglePaneHotspotSizeBottom", 20);
     var delay = ko.prefs.getLong("autoTogglePaneDelay", 100);
-    var toggleTabs = ko.prefs.getBoolean("autoTogglePaneToggleTabs", true);
+    //var toggleTabs = ko.prefs.getBoolean("autoTogglePaneToggleTabs", true);
+    var toggleLeft = ko.prefs.getBoolean("toggleLeftPane", true);
+    var toggleRight = ko.prefs.getBoolean("toggleRightPane", true);
+    var toggleTop = ko.prefs.getBoolean("toggleTopPane", false);
+    var toggleBottom = ko.prefs.getBoolean("toggleBottomPane", true);
 
     // Remove existing event listener (if any)
     if ("onMouseMove" in self)
         window.removeEventListener("mousemove", self.onMouseMove);
 
-    var log = require("ko/logging").getLogger("autopanetoggle");
+    var log = ko.logging.getLogger("autopanetoggle");
     //log.setLevel(0);
-
     self.onMouseMove = function(e)
     {
         if ("timer" in self) clearTimeout(self.timer);
@@ -43,60 +46,68 @@
             if (e.buttons !== 0) return;
 
             // Left pane
-            var relativeX = e.screenX - editorViewBox.boxObject.screenX;
-            if (relativeX < hotspotsizeLeft && leftPane.collapsed)
-            {
-                log.debug("Show left pane");
-                ko.uilayout.togglePane("workspace_left_area");
-            }
-            else if (relativeX > hotspotsizeLeft &&  ! leftPane.collapsed)
-            {
-                log.debug("Hide left pane");
-                ko.uilayout.togglePane("workspace_left_area");
-            }
-
-            // Right pane
-            var rightRelativeX =  editorViewBox.boxObject.width - relativeX;
-            if (rightRelativeX < hotspotsizeRight && rightPane.collapsed)
-            {
-                log.debug("Show right pane");
-                ko.uilayout.togglePane("workspace_right_area");
-            }
-            else if (rightRelativeX > hotspotsizeRight &&  ! rightPane.collapsed)
-            {
-                log.debug("Hide right pane");
-                ko.uilayout.togglePane("workspace_right_area");
-            }
-
-            // Tabs
-            var relativeY = e.screenY - editorViewBox.boxObject.screenY;
-            if (toggleTabs)
-            {
-                if (relativeY < hotspotsizeTop && ! ko.openfiles.isTabBarVisible())
+            if (toggleLeft == true) {
+                var relativeX = e.screenX - editorViewBox.boxObject.screenX;
+                if (relativeX < hotspotsizeLeft && leftPane.collapsed)
                 {
-                    log.debug("Show tabs");
-                    ko.openfiles.toggleTabBar();
+                    log.debug("Show left pane");
+                    ko.uilayout.togglePane("workspace_left_area");
                 }
-                else if (relativeY > hotspotsizeTop && ko.openfiles.isTabBarVisible())
+                else if (relativeX > hotspotsizeLeft &&  ! leftPane.collapsed)
                 {
-                    log.debug("Hide tabs");
-                    ko.openfiles.toggleTabBar();
+                    log.debug("Hide left pane");
+                    ko.uilayout.togglePane("workspace_left_area");
                 }
             }
 
-            // Bottom pane
-            var relativeY = e.screenY - editorViewBox.boxObject.screenY;
-            var bottomRelativeY = editorViewBox.boxObject.height - relativeY;
-            if (bottomRelativeY < hotspotsizeBottom && bottomPane.collapsed)
-            {
-                log.debug("Show bottom pane");
-                ko.uilayout.togglePane("workspace_bottom_area");
+            if (toggleRight == true) {
+                // Right pane
+                var rightRelativeX =  editorViewBox.boxObject.width - relativeX;
+                if (rightRelativeX < hotspotsizeRight && rightPane.collapsed)
+                {
+                    log.debug("Show right pane");
+                    ko.uilayout.togglePane("workspace_right_area");
+                }
+                else if (rightRelativeX > hotspotsizeRight &&  ! rightPane.collapsed)
+                {
+                    log.debug("Hide right pane");
+                    ko.uilayout.togglePane("workspace_right_area");
+                }
             }
-            else if (bottomRelativeY > hotspotsizeBottom &&  ! bottomPane.collapsed)
-            {
-                log.debug("Hide bottom pane");
-                ko.uilayout.togglePane("workspace_bottom_area");
+
+            if (toggleTop == true) {
+                var relativeY = e.screenY - editorViewBox.boxObject.screenY;
+                if (toggleTabs)
+                {
+                    if (relativeY < hotspotsizeTop && ! ko.openfiles.isTabBarVisible())
+                    {
+                        log.debug("Show tabs");
+                        ko.openfiles.toggleTabBar();
+                    }
+                    else if (relativeY > hotspotsizeTop && ko.openfiles.isTabBarVisible())
+                    {
+                        log.debug("Hide tabs");
+                        ko.openfiles.toggleTabBar();
+                    }
+                }
             }
+             ////Tabs
+
+            if (toggleBottom == true) {
+                var relativeY = e.screenY - editorViewBox.boxObject.screenY;
+                var bottomRelativeY = editorViewBox.boxObject.height - relativeY;
+                if (bottomRelativeY < hotspotsizeBottom && bottomPane.collapsed)
+                {
+                    log.debug("Show bottom pane");
+                    ko.uilayout.togglePane("workspace_bottom_area");
+                }
+                else if (bottomRelativeY > hotspotsizeBottom &&  ! bottomPane.collapsed)
+                {
+                    log.debug("Hide bottom pane");
+                    ko.uilayout.togglePane("workspace_bottom_area");
+                }
+            }
+
 
         }, delay);
     }
