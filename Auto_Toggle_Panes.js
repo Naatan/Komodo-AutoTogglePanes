@@ -22,10 +22,9 @@
     var hotspotsizeTop = ko.prefs.getLong("autoTogglePaneHotspotSizeTop", 20);
     var hotspotsizeBottom = ko.prefs.getLong("autoTogglePaneHotspotSizeBottom", 20);
     var delay = ko.prefs.getLong("autoTogglePaneDelay", 100);
-    //var toggleTabs = ko.prefs.getBoolean("autoTogglePaneToggleTabs", true);
     var toggleLeft = ko.prefs.getBoolean("toggleLeftPane", true);
     var toggleRight = ko.prefs.getBoolean("toggleRightPane", true);
-    var toggleTop = ko.prefs.getBoolean("toggleTopPane", false);
+    var toggleTop = ko.prefs.getBoolean("toggleTopPane", true);
     var toggleBottom = ko.prefs.getBoolean("toggleBottomPane", true);
 
     // Remove existing event listener (if any)
@@ -77,18 +76,15 @@
 
             if (toggleTop == true) {
                 var relativeY = e.screenY - editorViewBox.boxObject.screenY;
-                if (toggleTabs)
+                if (relativeY < hotspotsizeTop && ! ko.openfiles.isTabBarVisible())
                 {
-                    if (relativeY < hotspotsizeTop && ! ko.openfiles.isTabBarVisible())
-                    {
-                        log.debug("Show tabs");
-                        ko.openfiles.toggleTabBar();
-                    }
-                    else if (relativeY > hotspotsizeTop && ko.openfiles.isTabBarVisible())
-                    {
-                        log.debug("Hide tabs");
-                        ko.openfiles.toggleTabBar();
-                    }
+                    log.debug("Show tabs");
+                    ko.openfiles.toggleTabBar();
+                }
+                else if (relativeY > hotspotsizeTop && ko.openfiles.isTabBarVisible())
+                {
+                    log.debug("Hide tabs");
+                    ko.openfiles.toggleTabBar();
                 }
             }
              ////Tabs
