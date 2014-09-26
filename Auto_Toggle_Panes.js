@@ -24,7 +24,7 @@
     var delay = ko.prefs.getLong("autoTogglePaneDelay", 100);
     var toggleLeft = ko.prefs.getBoolean("toggleLeftPane", true);
     var toggleRight = ko.prefs.getBoolean("toggleRightPane", true);
-    var toggleTop = ko.prefs.getBoolean("toggleTopPane", true);
+    var toggleTop = ko.prefs.getBoolean("toggleTopPane", false);
     var toggleBottom = ko.prefs.getBoolean("toggleBottomPane", true);
 
     // Remove existing event listener (if any)
