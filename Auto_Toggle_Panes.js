@@ -17,7 +17,7 @@
     var bottomPane = document.getElementById("workspace_bottom_area");
 
     // Retrieve preferences
-    var hotspotsizeLeft = ko.prefs.getLong("autoTogglePaneHotspotSizeLeft", 5);
+    var hotspotsizeLeft = ko.prefs.getLong("autoTogglePaneHotspotSizeLeft", 10);
     var hotspotsizeRight = ko.prefs.getLong("autoTogglePaneHotspotSizeRight", 50);
     var hotspotsizeTop = ko.prefs.getLong("autoTogglePaneHotspotSizeTop", 20);
     var hotspotsizeBottom = ko.prefs.getLong("autoTogglePaneHotspotSizeBottom", 20);
