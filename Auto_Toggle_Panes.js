@@ -77,8 +77,6 @@
 
             if (toggleTop == true) {
                 var relativeY = e.screenY - editorViewBox.boxObject.screenY;
-                if (toggleTabs)
-                {
                     if (relativeY < hotspotsizeTop && ! ko.openfiles.isTabBarVisible())
                     {
                         log.debug("Show tabs");
@@ -89,7 +87,6 @@
                         log.debug("Hide tabs");
                         ko.openfiles.toggleTabBar();
                     }
-                }
             }
              ////Tabs
 
